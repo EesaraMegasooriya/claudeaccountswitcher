@@ -1,0 +1,91 @@
+{
+  "name": "claude-account-switcher",
+  "displayName": "Claude Account Switcher",
+  "description": "Save multiple Claude Code logins and switch between them from the side panel or status bar.",
+  "version": "0.2.0",
+  "publisher": "EesaraMegasooriya",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "galleryBanner": { "color": "#D97757", "theme": "dark" },
+  "keywords": ["claude", "claude code", "account", "switcher", "login", "profiles"],
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "main": "./out/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        { "id": "claudeAccounts", "title": "Claude Accounts", "icon": "media/activitybar.svg" }
+      ]
+    },
+    "views": {
+      "claudeAccounts": [
+        { "id": "claudeAccounts.accounts", "name": "Accounts", "icon": "media/activitybar.svg", "contextualTitle": "Claude Accounts" }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "claudeAccounts.accounts",
+        "contents": "No Claude accounts saved yet.\n[Save Current Login](command:claudeAccounts.saveCurrent)\n[Add Account](command:claudeAccounts.addAccount)\nLog in with Claude Code, save the login here, then switch between saved accounts with one click.",
+        "when": "!claudeAccounts.hasAccounts"
+      }
+    ],
+    "commands": [
+      { "command": "claudeAccounts.switch", "title": "Switch Account", "category": "Claude Accounts", "icon": "$(arrow-swap)" },
+      { "command": "claudeAccounts.saveCurrent", "title": "Save Current Login as Account", "category": "Claude Accounts", "icon": "$(save)" },
+      { "command": "claudeAccounts.addAccount", "title": "Add Account (Log In)", "category": "Claude Accounts", "icon": "$(add)" },
+      { "command": "claudeAccounts.remove", "title": "Remove Saved Account", "category": "Claude Accounts", "icon": "$(trash)" },
+      { "command": "claudeAccounts.rename", "title": "Rename Saved Account", "category": "Claude Accounts", "icon": "$(edit)" },
+      { "command": "claudeAccounts.openTerminal", "title": "Open Claude Code Terminal", "category": "Claude Accounts", "icon": "$(terminal)" },
+      { "command": "claudeAccounts.refresh", "title": "Refresh", "category": "Claude Accounts", "icon": "$(refresh)" }
+    ],
+    "menus": {
+      "view/title": [
+        { "command": "claudeAccounts.addAccount", "when": "view == claudeAccounts.accounts", "group": "navigation@1" },
+        { "command": "claudeAccounts.openTerminal", "when": "view == claudeAccounts.accounts", "group": "navigation@2" },
+        { "command": "claudeAccounts.refresh", "when": "view == claudeAccounts.accounts", "group": "navigation@3" },
+        { "command": "claudeAccounts.saveCurrent", "when": "view == claudeAccounts.accounts", "group": "more" }
+      ],
+      "view/item/context": [
+        { "command": "claudeAccounts.switch", "when": "view == claudeAccounts.accounts && viewItem == account", "group": "inline@1" },
+        { "command": "claudeAccounts.rename", "when": "view == claudeAccounts.accounts && viewItem =~ /^account/", "group": "inline@2" },
+        { "command": "claudeAccounts.remove", "when": "view == claudeAccounts.accounts && viewItem =~ /^account/", "group": "inline@3" },
+        { "command": "claudeAccounts.saveCurrent", "when": "view == claudeAccounts.accounts && viewItem == unsaved", "group": "inline@1" }
+      ]
+    },
+    "configuration": {
+      "title": "Claude Account Switcher",
+      "properties": {
+        "claudeAccounts.claudePath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Full path to the Claude Code CLI. Leave empty to detect it automatically (PATH, `~/.local/bin`, `~/.claude/local`, Homebrew, npm global)."
+        },
+        "claudeAccounts.promptToSaveNewLogins": {
+          "type": "boolean",
+          "default": true,
+          "description": "Offer to save a login that isn't in your saved accounts yet."
+        },
+        "claudeAccounts.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the active Claude account in the status bar."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "icon": "node scripts/make-icon.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.2.1",
+    "typescript": "^5.4.0"
+  }
+}
