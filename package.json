@@ -1,10 +1,16 @@
 {
-  "name": "claude-account-switcher",
-  "displayName": "Claude Account Switcher",
+  "name": "claude-account-switcher-EM",
+  "displayName": "Claude Account Switcher by EM",
   "description": "Save multiple Claude Code logins and switch between them from the side panel or status bar.",
   "version": "0.2.0",
   "publisher": "EesaraMegasooriya",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EesaraMegasooriya/claudeaccountswitcher.git"
+  },
+  "bugs": { "url": "https://github.com/EesaraMegasooriya/claudeaccountswitcher/issues" },
+  "homepage": "https://github.com/EesaraMegasooriya/claudeaccountswitcher#readme",
   "icon": "media/icon.png",
   "galleryBanner": { "color": "#D97757", "theme": "dark" },
   "keywords": ["claude", "claude code", "account", "switcher", "login", "profiles"],
